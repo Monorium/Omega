@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;" -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+  <link rel="stylesheet" type="text/css" href="css/onsenui.min.css">
+  <link rel="stylesheet" type="text/css" href="css/onsen-css-components.min.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="js/onsenui.min.js"></script>
+  <title>Omega controller</title>
+</head>
+
+<body>
+  <div>
+    <input id="speed" type="text" class="text-input text-input--underbar" style="width: 30%;" placeholder="text" value="100">
+    <button class="button" id="send" type="button">SEND</button>
+    <button class="button" id="forward" type="button">↑</button>
+    <button class="button" id="back" type="button">↓</button>
+    <button class="button" id="left" type="button">←</button>
+    <button class="button" id="right" type="button">→</button>
+    <button class="button" id="stop" type="button">STOP</button>
+  </div>
+
+  <div>
+    <div id="left_data" style="width: 35%; float: left;">
+      <ul class="list">
+        <li class="list-header">左前サーボ</li>
+        <li class="list-item">
+          <div class="list-item__left">No.01</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s1').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s1">90</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.07</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s7').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s7">160</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.13</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s13').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s13">160</output>
+          </div>
+        </li>
+
+        <li class="list-header">左中サーボ</li>
+        <li class="list-item">
+          <div class="list-item__left">No.02</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s2').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s2">90</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.08</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s8').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s8">160</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.14</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s14').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s14">160</output>
+          </div>
+        </li>
+
+        <li class="list-header">左後サーボ</li>
+        <li class="list-item">
+          <div class="list-item__left">No.03</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s3').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s3">90</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.09</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s9').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s9">160</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.15</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s15').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s15">160</output>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div id="right_data" style="width: 35%; float: left;">
+      <ul class="list">
+        <li class="list-header">右前サーボ</li>
+        <li class="list-item">
+          <div class="list-item__left">No.04</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s4').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s4">90</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.10</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s10').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s10">160</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.16</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s16').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s16">160</output>
+          </div>
+        </li>
+
+        <li class="list-header">右中サーボ</li>
+        <li class="list-item">
+          <div class="list-item__left">No.05</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s5').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s5">90</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.11</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s11').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s11">160</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.17</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s17').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s17">160</output>
+          </div>
+        </li>
+
+        <li class="list-header">右後サーボ</li>
+        <li class="list-item">
+          <div class="list-item__left">No.06</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s6').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s6">90</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.12</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s12').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s12">160</output>
+          </div>
+        </li>
+        <li class="list-item">
+          <div class="list-item__left">No.18</div>
+          <div class="list-item__center">
+            <div class="range">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s18').value=this.value">
+            </div>
+            &nbsp;
+            <output id="range.s18">160</output>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div style="width: 30%; float: left;">
+      <textarea id="recv_data" class="textarea" style="width: 100%;" rows="3" placeholder="Recv Data" disabled="disabled"></textarea>
+      <textarea id="log_area" class="textarea" style="width: 100%;" rows="20" placeholder="Log" disabled="disabled"></textarea>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="cordova.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+</body>
+
+</html>
