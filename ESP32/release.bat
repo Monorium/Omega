@@ -2,7 +2,7 @@
 
 set AMPY_PORT=COM5
 ampy put boot.py
-rem ampy put main.py
+ampy put main.py
 
 ampy put microWebSrv.py
 ampy put microWebSocket.py

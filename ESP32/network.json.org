@@ -1,5 +1,5 @@
 {
-    "isApMode": false,
+    "isApMode": true,
     "sta": {
         "ssid": "ACCESS POINT SSID",
         "password": "ACCESS POINT PASSWORD"
