@@ -16,13 +16,19 @@
 
 <body>
   <div>
-    <input id="speed" type="text" class="text-input text-input--underbar" style="width: 30%;" placeholder="text" value="100">
     <button class="button" id="send" type="button">SEND</button>
     <button class="button" id="forward" type="button">↑</button>
     <button class="button" id="back" type="button">↓</button>
     <button class="button" id="left" type="button">←</button>
     <button class="button" id="right" type="button">→</button>
     <button class="button" id="stop" type="button">STOP</button>
+    <br>
+    <div class="range">
+      <input type="range" class="range__input" min="1" max="255" value="100" oninput="document.getElementById('range.speed').value=this.value">
+    </div>
+    &nbsp;
+    <output id="range.speed">100</output>
+    <!-- <input id="speed" type="text" class="text-input text-input--underbar" style="width: 30%;" placeholder="text" value="100"> -->
   </div>
 
   <div>
@@ -225,15 +231,11 @@
         </li>
       </ul>
     </div>
-
-    <div style="width: 30%; float: left;">
-      <textarea id="recv_data" class="textarea" style="width: 100%;" rows="3" placeholder="Recv Data" disabled="disabled"></textarea>
-      <textarea id="log_area" class="textarea" style="width: 100%;" rows="20" placeholder="Log" disabled="disabled"></textarea>
-    </div>
   </div>
 
   <script type="text/javascript" src="cordova.js"></script>
   <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/connection.js"></script>
 </body>
 
 </html>
