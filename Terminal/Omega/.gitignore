@@ -5,3 +5,4 @@ bin/*
 plugins/*
 platforms/*
 /node_modules
+cordova.d.ts

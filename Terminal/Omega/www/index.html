@@ -24,7 +24,7 @@
     <button class="button" id="stop" type="button">STOP</button>
     <br>
     <div class="range">
-      <input type="range" class="range__input" min="1" max="255" value="100" oninput="document.getElementById('range.speed').value=this.value">
+      <input type="range" class="range__input" min="1" max="255" value="100" oninput="document.getElementById('range.speed').value=this.value;test(this);">
     </div>
     &nbsp;
     <output id="range.speed">100</output>
@@ -39,7 +39,7 @@
           <div class="list-item__left">No.01</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s1').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s1').value=this.value" onchange="changeRange(this)" name="s1">
             </div>
             &nbsp;
             <output id="range.s1">90</output>
@@ -49,7 +49,7 @@
           <div class="list-item__left">No.07</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s7').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s7').value=this.value" onchange="changeRange(this)" name="s7">
             </div>
             &nbsp;
             <output id="range.s7">160</output>
@@ -59,7 +59,7 @@
           <div class="list-item__left">No.13</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s13').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s13').value=this.value" onchange="changeRange(this)" name="s13">
             </div>
             &nbsp;
             <output id="range.s13">160</output>
@@ -71,7 +71,7 @@
           <div class="list-item__left">No.02</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s2').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s2').value=this.value" onchange="changeRange(this)" name="s2">
             </div>
             &nbsp;
             <output id="range.s2">90</output>
@@ -81,7 +81,7 @@
           <div class="list-item__left">No.08</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s8').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s8').value=this.value" onchange="changeRange(this)" name="s8">
             </div>
             &nbsp;
             <output id="range.s8">160</output>
@@ -91,7 +91,7 @@
           <div class="list-item__left">No.14</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s14').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s14').value=this.value" onchange="changeRange(this)" name="s14">
             </div>
             &nbsp;
             <output id="range.s14">160</output>
@@ -103,7 +103,7 @@
           <div class="list-item__left">No.03</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s3').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s3').value=this.value" onchange="changeRange(this)" name="s3">
             </div>
             &nbsp;
             <output id="range.s3">90</output>
@@ -113,7 +113,7 @@
           <div class="list-item__left">No.09</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s9').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s9').value=this.value" onchange="changeRange(this)" name="s9">
             </div>
             &nbsp;
             <output id="range.s9">160</output>
@@ -123,7 +123,7 @@
           <div class="list-item__left">No.15</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s15').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s15').value=this.value" onchange="changeRange(this)" name="s15">
             </div>
             &nbsp;
             <output id="range.s15">160</output>
@@ -139,7 +139,7 @@
           <div class="list-item__left">No.04</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s4').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s4').value=this.value" onchange="changeRange(this)" name="s4">
             </div>
             &nbsp;
             <output id="range.s4">90</output>
@@ -149,7 +149,7 @@
           <div class="list-item__left">No.10</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s10').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s10').value=this.value" onchange="changeRange(this)" name="s10">
             </div>
             &nbsp;
             <output id="range.s10">160</output>
@@ -159,7 +159,7 @@
           <div class="list-item__left">No.16</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s16').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s16').value=this.value" onchange="changeRange(this)" name="s16">
             </div>
             &nbsp;
             <output id="range.s16">160</output>
@@ -171,7 +171,7 @@
           <div class="list-item__left">No.05</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s5').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s5').value=this.value" onchange="changeRange(this)" name="s5">
             </div>
             &nbsp;
             <output id="range.s5">90</output>
@@ -181,7 +181,7 @@
           <div class="list-item__left">No.11</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s11').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s11').value=this.value" onchange="changeRange(this)" name="s11">
             </div>
             &nbsp;
             <output id="range.s11">160</output>
@@ -191,7 +191,7 @@
           <div class="list-item__left">No.17</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s17').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s17').value=this.value" onchange="changeRange(this)" name="s17">
             </div>
             &nbsp;
             <output id="range.s17">160</output>
@@ -203,7 +203,7 @@
           <div class="list-item__left">No.06</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s6').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="90" oninput="document.getElementById('range.s6').value=this.value" onchange="changeRange(this)" name="s6">
             </div>
             &nbsp;
             <output id="range.s6">90</output>
@@ -213,7 +213,7 @@
           <div class="list-item__left">No.12</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s12').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s12').value=this.value" onchange="changeRange(this)" name="s12">
             </div>
             &nbsp;
             <output id="range.s12">160</output>
@@ -223,7 +223,7 @@
           <div class="list-item__left">No.18</div>
           <div class="list-item__center">
             <div class="range">
-              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s18').value=this.value">
+              <input type="range" class="range__input" min="0" max="180" value="160" oninput="document.getElementById('range.s18').value=this.value" onchange="changeRange(this)" name="s18">
             </div>
             &nbsp;
             <output id="range.s18">160</output>
