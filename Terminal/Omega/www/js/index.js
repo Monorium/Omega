@@ -90,5 +90,5 @@ function changeRange(rangeObj) {
   else if (rangeObj.name == "s18")
     servoList[0] = WebSocketConnection.createServoObject(18, parseInt(document.getElementById('range.s18').value));
 
-  sock.sendManualControl(parseInt(document.getElementById('range.speed').value), servoList);
+  sock.sendManualControl(parseInt(document.getElementById('range.speed.mainte').value), servoList);
 }

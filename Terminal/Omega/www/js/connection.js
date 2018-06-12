@@ -22,24 +22,28 @@ class WebSocketConnection {
     console.log("Socket open");
     this.connected = true;
     console.log("connected:" + this.connected);
+    ons.notification.toast('Web socket is connected', { timeout: 1000, animation: 'ascend' });
   }
 
   // 切断イベント
   onClose() {
     console.log("Socket close");
     this.connected = false;
+    ons.notification.toast('Web socket is closed', { timeout: 1000, animation: 'ascend' });
   }
 
   // エラーイベント
   onError(event) {
     console.log("エラーが発生しました。");
     this.sock.close();
+    ons.notification.toast('Web socket error is ' + event.data, { timeout: 1000, animation: 'ascend' });
   }
 
   // メッセージ受信イベント
   onMessage(event) {
     if (event && event.data) {
       console.log(event.data);
+      ons.notification.toast('Web socket recv is ' + event.data, { timeout: 1000, animation: 'ascend' });
     } else {
       console.log("eventが空。");
     }
