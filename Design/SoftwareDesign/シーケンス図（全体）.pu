@@ -1,0 +1,83 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 20
+'skinparam maxmessagesize 120
+autonumber 1 1 "###."
+
+actor ユーザ as User
+participant "スマホ" as Term
+participant "ESP32" as Esp
+participant "Arduino Due" as Arduino
+participant "Servo (0-9)" as Servo1
+participant "Servo (10-17)" as Servo2
+
+== 基本オペレーション ==
+User -> Term: ボタン操作
+activate Term
+
+Term -> Esp: サーボ制御 (http)
+note right of Term
+・個別制御
+・16方向＆旋回制御
+・停止制御
+・位置リセット
+end note
+activate Esp
+
+Esp -> Arduino: サーボ制御電文送信 (UART)
+note right of Esp
+・個別制御
+・16方向＆旋回制御
+・停止制御
+・位置リセット
+end note
+activate Arduino
+
+group 動作制御内容によって制御を繰り返す
+Arduino -> Servo1: 制御
+note left
+指定角度になるまで制御
+インターバル：10msec
+end note
+activate Servo1
+Arduino -> Esp: サーボ制御電文送信 (UART)
+note right of Esp
+・サーボ制御
+end note
+Esp -> Servo2: 制御
+activate Servo2
+Arduino -> Servo1: 制御
+Arduino -> Esp: サーボ制御電文送信 (UART)
+Esp -> Servo2: 制御
+Arduino -> Servo1: 制御
+Arduino -> Esp: サーボ制御電文送信 (UART)
+Esp -> Servo2: 制御
+end
+deactivate Servo2
+deactivate Servo1
+deactivate Arduino
+deactivate Esp
+
+== ヘルスチェック ==
+Term -> Esp: ヘルスチェックreq (http)
+activate Esp
+note left of Term
+インターバル：3sec
+endnote
+Esp --> Term: ヘルスチェックres (http)
+
+Term ->x Esp: ヘルスチェックreq (http)
+Term ->x Esp: ヘルスチェックreq (http)
+Term ->x Esp: ヘルスチェックreq (http)
+note right of Esp
+10sec以上経過で通信異常と判断し、
+制御を停止してWebSocketをcloseする。
+endnote
+Esp -> Arduino: サーボ制御電文送信 (UART)
+note right of Esp
+・停止制御
+end note
+deactivate Term
+deactivate Esp
+
+@enduml
