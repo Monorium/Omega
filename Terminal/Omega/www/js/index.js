@@ -27,6 +27,21 @@ function sendPing() {
   sock.sendPing();
 }
 
+document.getElementById('connect').onclick = function () {
+  if (sock != null) {
+    sock.closeSocket();
+    sock == null;
+  }
+  sock = new WebSocketConnection();
+}
+
+document.getElementById('close').onclick = function () {
+  if (sock != null) {
+    sock.closeSocket();
+    sock == null;
+  }
+}
+
 document.getElementById('send').onclick = function () {
   servoList = new Array();
   servoList[0] = WebSocketConnection.createServoObject(1, parseInt(document.getElementById('range.s1').value));
