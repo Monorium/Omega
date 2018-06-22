@@ -1,5 +1,6 @@
 # coding: utf-8
 from machine import UART
+import select
 from time import sleep
 from _thread import start_new_thread
 
@@ -37,7 +38,12 @@ class ArduinoConn():
 
     def _recv(self, callback):
         tele = ArduinoTele()
+        poller = select.poll()
+        poller.register(self._uart, select.POLLIN)
+
         while True:
+            events = poller.poll()
+            print('events =', events)
             while self._uart.any():
                 buf = self._uart.read(1)
                 print(buf)
@@ -47,11 +53,9 @@ class ArduinoConn():
                     tele.isRecving = True
                 elif buf[0] == ArduinoConn._ETX:
                     print("-> ETX")
-                    print(tele.data)
-                    callback(tele)
-                    tele.clear()
+                    if tele.isRecving:
+                        print(tele.data)
+                        callback(tele)
+                        tele.clear()
                 elif tele.isRecving:
                     tele.data += buf.decode()
-                sleep(0.001)
-            else:
-                sleep(0.1)
