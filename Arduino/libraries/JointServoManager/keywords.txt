@@ -12,6 +12,8 @@ JointServoManager   KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
+loadConfig          KEYWORD2
+isLoaded            KEYWORD2
 servoList           KEYWORD2
 
 #######################################

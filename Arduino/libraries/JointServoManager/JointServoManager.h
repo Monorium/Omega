@@ -1,5 +1,5 @@
-#ifndef JOINTSERVOManager_H_INCLUDE
-#define JOINTSERVOManager_H_INCLUDE
+#ifndef JOINTSERVOMANAGER_H_INCLUDE
+#define JOINTSERVOMANAGER_H_INCLUDE
 
 #include <QList.h>
 #include "JointServo.h"
@@ -17,10 +17,12 @@ const String CONFIG_SERVO_DEFINE_DEFAULT = "default.angle";
 class JointServoManager {
 public:
   JointServoManager();
+  void loadConfig();
+
+  boolean isLoaded = false;
   QList<JointServo> servoList;
 
 private:
-  boolean loadConfig();
   void loadDefaultConfig();
 };
 

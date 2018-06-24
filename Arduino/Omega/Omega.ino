@@ -17,10 +17,12 @@ void setup()
   // ESP32通信初期化
   Serial1.begin(115200);
   Serial.println(F("serial begin"));
+  delay(2000);
 
-  // サーボ管理クラス初期化t
-  servoMan = JointServoManager();
-  for (int id = 0; servoMan.servoList.size(); id++)
+  // サーボ管理クラス初期化
+  servoMan.loadConfig();
+  Serial.println(servoMan.servoList.size());
+  for (int id = 0; id < servoMan.servoList.size(); id++)
   {
     // ESP33の場合は制御しておく
     if (!servoMan.servoList.at(id).isMyServo)

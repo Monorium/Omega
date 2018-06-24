@@ -1,13 +1,20 @@
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <SPI.h>
 #include <SD.h>
-#include "JointServoManager.h"
 #include "JointServo.h"
+#include "JointServoManager.h"
 
 // サーボ管理クラス
 JointServoManager::JointServoManager()
 {
+}
+
+// SDカードからservo.jsonを読み込む
+void JointServoManager::loadConfig()
+{
+  if (isLoaded)
+    return;
+
   // サーボ情報の格納用配列を初期化
   for (int i = 0; i < MAX_SERVO_CNT; i++)
   {
@@ -15,18 +22,11 @@ JointServoManager::JointServoManager()
     servoList.push_back(servo);
   }
 
-  // 設定ファイル読み込み
-  if (!loadConfig())
-    loadDefaultConfig();
-}
-
-// SDカードからservo.jsonを読み込む
-boolean JointServoManager::loadConfig()
-{
   if (!SD.begin(CS_SDCARD))
   {
     Serial.println(F("SDカード接続エラー"));
-    return false;
+    loadDefaultConfig();
+    return;
   }
   Serial.println(F("SDカード接続"));
 
@@ -34,14 +34,16 @@ boolean JointServoManager::loadConfig()
   if (!SD.exists(SERVO_CONFIG_NAME))
   {
     Serial.println(F("設定ファイルなし"));
-    return false;
+    loadDefaultConfig();
+    return;
   }
   File config = SD.open(SERVO_CONFIG_NAME, FILE_READ);
   if (!config)
   {
     Serial.println(F("設定ファイルオープンエラー"));
     config.close();
-    return false;
+    loadDefaultConfig();
+    return;
   }
 
   String conf = "";
@@ -57,7 +59,8 @@ boolean JointServoManager::loadConfig()
   {
     Serial.println(F("設定ファイル解析エラー"));
     config.close();
-    return false;
+    loadDefaultConfig();
+    return;
   }
 
   // 設定からJointServoオブジェクトを更新
@@ -77,11 +80,12 @@ boolean JointServoManager::loadConfig()
   }
 
   config.close();
-  return true;
+  isLoaded = true;
 }
 
 // 設定ファイルエラーのときの初期化処理
 void JointServoManager::loadDefaultConfig()
 {
   Serial.println(F("初期値で設定"));
+  isLoaded = true;
 }
