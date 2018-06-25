@@ -14,11 +14,11 @@ OmegaはAndroid端末で操作できる6足歩行の虫型ロボット（オモ�
 ### 設計ソフトウェア
 * Fritzing
 * PlantUML
+* Inkscape
 ### ソフトウェア開発環境
 * Visual Studio Code
 * Arduino IDE
 * Android Studio
-* Inkscape
 ### プラットフォームというか開発言語
 * C++（Arduino）
 * Micropython
@@ -31,7 +31,7 @@ OmegaはAndroid端末で操作できる6足歩行の虫型ロボット（オモ�
 |0.0.2|サーボ動作スピード制御|
 |0.0.3|Wi-Fi通信|
 |0.0.4|サーボ個別制御（全18個）|
-||microSDでマスターデータ|
+|0.0.5|microSDでマスターデータ|
 ||16方向制御|
 ||左右回転制御|
 ||16方向と回転制御の複合|
