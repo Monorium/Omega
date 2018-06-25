@@ -17,7 +17,7 @@ void setup()
   // ESP32通信初期化
   Serial1.begin(115200);
   Serial.println(F("serial begin"));
-  delay(2000);
+  delay(3000);
 
   // サーボ管理クラス初期化
   servoMan.loadConfig();
@@ -63,11 +63,12 @@ void loopSerialProc()
 {
   if (opeTele.status == TELE_STS_COMPLETED)
   {
-    for (int id = 0; id < opeTele.servoList.size(); id++)
+    for (int i = 0; i < opeTele.servoList.size(); i++)
     {
-      int speed = constrain(opeTele.servoList.at(id).speed, SERVO_CTRL_SPEED_MIN, SERVO_CTRL_SPEED_MAX);
-      int angle = constrain(opeTele.servoList.at(id).angle, SERVO_ANGLE_MIN, SERVO_ANGLE_MAX);
-      reserveServoControl(id, angle, speed);
+      int speed = constrain(opeTele.servoList.at(i).speed, SERVO_CTRL_SPEED_MIN, SERVO_CTRL_SPEED_MAX);
+      int servoID = constrain(opeTele.servoList.at(i).servoId, 0, servoMan.servoList.size() - 1);
+      int angle = constrain(opeTele.servoList.at(i).angle, SERVO_ANGLE_MIN, SERVO_ANGLE_MAX);
+      reserveServoControl(servoID, angle, speed);
     }
     opeTele.clear();
   }
