@@ -1,0 +1,9 @@
+[submodule "omega-controller-app"]
+	path = omega-controller-app
+	url = git@github.com:Monorium/omega-controller-app.git
+[submodule "omega-comm-part"]
+	path = omega-comm-part
+	url = git@github.com:Monorium/omega-comm-part.git
+[submodule "omega-main-part"]
+	path = omega-main-part
+	url = git@github.com:Monorium/omega-main-part.git
