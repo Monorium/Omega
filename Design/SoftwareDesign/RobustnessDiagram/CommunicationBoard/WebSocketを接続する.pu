@@ -1,0 +1,15 @@
+@startuml
+!include ../../inc/settings.pu
+left to right direction
+title ロバストネス図 - WebSocketを接続する
+
+actor "Controller" as Controller
+boundary "WebSocketServer" as WebSocketServer
+control "WebSocket接続" as ConnectWebSocket
+control "ヘルスチェックタイマー開始" as StartHealthCheckTimer
+
+Controller --> WebSocketServer : WebSocketを接続する
+WebSocketServer --> StartHealthCheckTimer
+WebSocketServer --> ConnectWebSocket
+
+@enduml

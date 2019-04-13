@@ -1,0 +1,17 @@
+@startuml
+!include ../../inc/settings.pu
+left to right direction
+title ロバストネス図 - ヘルスチェックを送信する
+
+actor "Controller" as Controller
+boundary "WebSocketServer" as WebSocketServer
+control "ヘルスチェックを処理" as ExecHealthCheck
+control "ヘルスチェックを返す" as RecvHealthCheck
+
+Controller --> WebSocketServer : ヘルスチェックを送信する
+WebSocketServer --> ExecHealthCheck
+ExecHealthCheck --> RecvHealthCheck
+RecvHealthCheck --> WebSocketServer
+WebSocketServer --> Controller
+
+@enduml

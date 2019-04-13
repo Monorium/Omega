@@ -1,0 +1,22 @@
+@startuml
+!include ../../inc/settings.pu
+left to right direction
+title ロバストネス図 - サーボの角度を決める
+
+actor "ユーザ" as User
+boundary "サーボ制御画面" as ServoControlPart
+entity "スピード" as Speed
+entity "サーボ角度" as ServoAngle
+control "サーボ角度変更" as ChangeServoAngle
+control "サーボ角度制御電文作成" as CreateServoAngleTelegram
+control "電文送信" as SendTelegram
+
+User --> ServoControlPart : 角度を決める
+ServoControlPart --> ChangeServoAngle
+ChangeServoAngle -- ServoAngle
+ChangeServoAngle --> CreateServoAngleTelegram
+CreateServoAngleTelegram -- ServoAngle
+CreateServoAngleTelegram -- Speed
+ChangeServoAngle --> SendTelegram : 制御電文
+
+@enduml

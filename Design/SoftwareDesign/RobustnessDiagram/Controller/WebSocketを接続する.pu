@@ -1,0 +1,15 @@
+@startuml
+!include ../../inc/settings.pu
+left to right direction
+title ロバストネス図 - WebSocketを接続する
+
+actor "ユーザ" as User
+boundary "ヘッダー部" as HeaderPart
+entity "接続状態" as IsConnected
+control "WebSocket接続" as ConnectWebSocket
+
+User --> HeaderPart : WebSocketを接続する
+HeaderPart --> ConnectWebSocket
+ConnectWebSocket -- IsConnected
+
+@enduml

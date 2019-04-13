@@ -1,0 +1,16 @@
+@startuml
+!include ../../inc/settings.pu
+left to right direction
+title ロバストネス図 - コントローラアプリを起動する
+
+actor "ユーザ" as User
+boundary "コントローラ" as Controller
+boundary "コントローラ画面" as ControllerPart
+control "アプリ起動" as StartApp
+
+User --> Controller : 起動
+Controller --> StartApp
+StartApp --> ControllerPart
+User <-- ControllerPart
+
+@enduml

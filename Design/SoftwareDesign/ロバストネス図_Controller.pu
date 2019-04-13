@@ -1,0 +1,110 @@
+@startuml
+!include inc/settings.pu
+left to right direction
+title ロバストネス図 - Controller
+
+actor "ユーザ" as User
+boundary "コントローラ" as Controller
+rectangle {
+  boundary "ヘッダー部" as HeaderPart
+  boundary "コントローラ画面" as ControllerPart
+  boundary "サーボ制御画面" as ServoControlPart
+}
+rectangle {
+  entity "スピード" as Speed
+  entity "サーボ角度" as ServoAngle
+  entity "接続状態" as IsConnected
+}
+control "アプリ起動" as StartApp
+control "スピード変更" as ChangeSpeed
+control "画面切替" as ChangePart
+control "サーボ角度変更" as ChangeServoAngle
+control "サーボ角度制御電文作成" as CreateServoAngleTelegram
+control "16方向移動制御" as ControlDirectionMove
+control "16方向移動制御電文作成" as CreateDirectionMoveTelegram
+control "回転方向移動制御" as ControlRollingMove
+control "回転方向移動制御電文作成" as CreateRollingMoveTelegram
+control "一時停止制御" as ControlPause
+control "一時停止制御電文作成" as CreatePauseTelegram
+control "緊急停止制御" as ControlEmergencyStop
+control "緊急停止制御電文作成" as CreateEmergencyStopTelegram
+control "基本姿勢制御" as ControlBasicMotion
+control "基本姿勢制御電文作成" as CreateBasicMotionTelegram
+rectangle {
+  control "WebSocket接続" as ConnectWebSocket
+  control "WebSocket切断" as DisconnectWebSocket
+  control "電文送信" as SendTelegram
+}
+
+' コントローラアプリを起動する
+User --> Controller : 起動
+Controller --> StartApp
+StartApp --> ControllerPart
+
+' スピードを変更する
+User --> ControllerPart : スピードを変更
+ControllerPart --> ChangeSpeed
+ChangeSpeed -- Speed
+User --> ServoControlPart : スピードを変更
+ServoControlPart --> ChangeSpeed
+
+' 画面を切り替える
+User --> HeaderPart : 画面を切り替える
+HeaderPart --> ChangePart
+ChangePart --> ControllerPart
+ChangePart --> ServoControlPart
+
+' サーボの角度を決める
+User --> ServoControlPart : 角度を決める
+ServoControlPart --> ChangeServoAngle
+ChangeServoAngle -- ServoAngle
+ChangeServoAngle --> CreateServoAngleTelegram
+CreateServoAngleTelegram -- ServoAngle
+CreateServoAngleTelegram -- Speed
+ChangeServoAngle --> SendTelegram : 制御電文
+
+' 16方向ボタンをタップする
+User --> ControllerPart : 16方向を決める
+ControllerPart --> ControlDirectionMove
+ControlDirectionMove --> CreateDirectionMoveTelegram
+CreateDirectionMoveTelegram -- Speed
+ControlDirectionMove --> SendTelegram : 制御電文
+
+' 回転ボタンをタップする
+User --> ControllerPart : 回転方向を決める
+ControllerPart --> ControlRollingMove
+ControlRollingMove --> CreateRollingMoveTelegram
+CreateRollingMoveTelegram -- Speed
+ControlRollingMove --> SendTelegram : 制御電文
+
+' 一時停止ボタンをタップする
+User --> ControllerPart : 一時停止ボタンをタップ
+ControllerPart --> ControlPause
+ControlPause --> CreatePauseTelegram
+ControlPause --> SendTelegram : 制御電文
+
+' 緊急停止ボタンをタップする
+User --> ControllerPart : 緊急停止ボタンをタップ
+ControllerPart --> ControlEmergencyStop
+ControlEmergencyStop --> CreateEmergencyStopTelegram
+ControlEmergencyStop --> SendTelegram : 制御電文
+
+' 基本姿勢ボタンをタップする
+User --> ControllerPart : 基本姿勢ボタンをタップ
+ControllerPart --> ControlBasicMotion
+ControlBasicMotion --> CreateBasicMotionTelegram
+ControlBasicMotion --> SendTelegram : 制御電文
+User --> ServoControlPart : 基本姿勢ボタンをタップ
+ServoControlPart --> ControlBasicMotion
+
+' WebSocketを接続する
+User --> HeaderPart : WebSocketを接続する
+HeaderPart --> ConnectWebSocket
+ConnectWebSocket -- IsConnected
+
+' WebSocketを切断する
+User --> HeaderPart : WebSocketを切断する
+HeaderPart --> DisconnectWebSocket
+DisconnectWebSocket -- IsConnected
+
+@enduml

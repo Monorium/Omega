@@ -1,0 +1,49 @@
+@startuml
+!include inc/settings.pu
+left to right direction
+title ユースケース図 - Controller
+
+actor "User" as User
+
+rectangle "Controller App" as ControllerApp {
+  usecase "コントローラアプリを起動する" as ucStartControlApp
+  usecase "スピードを変更する" as ucChangeSpeed
+  usecase "画面を切り替える" as ucChangePart
+  rectangle "サーボ管理" as ManageServo {
+    usecase "サーボの角度を決める" as ucDecideServoAngle
+    usecase "16方向ボタンをタップする" as ucTapDirectionBtn
+    usecase "回転ボタンをタップする" as ucTapRollingBtn
+    usecase "一時停止ボタンをタップする" as ucTapPauseBtn
+    usecase "緊急停止ボタンをタップする" as ucTapEmergencyStopBtn
+    usecase "基本姿勢ボタンをタップする" as ucTapBasicMotionBtn
+  }
+  rectangle "WebSocket管理" as ManageSocket {
+    usecase "WebSocketを接続する" as ucConnectSocket
+    usecase "WebSocketを切断する" as ucDisconnectSocket
+  }
+}
+
+actor "WebSocket Server" as WebSocketServer
+
+User -- ucStartControlApp
+User -- ucChangeSpeed
+User -- ucChangePart
+User -- ucConnectSocket
+User -- ucDisconnectSocket
+User -- ucDecideServoAngle
+User -- ucTapDirectionBtn
+User -- ucTapRollingBtn
+User -- ucTapPauseBtn
+User -- ucTapEmergencyStopBtn
+User -- ucTapBasicMotionBtn
+
+ucDecideServoAngle -- WebSocketServer
+ucConnectSocket -- WebSocketServer
+ucDisconnectSocket -- WebSocketServer
+ucTapDirectionBtn -- WebSocketServer
+ucTapRollingBtn -- WebSocketServer
+ucTapPauseBtn -- WebSocketServer
+ucTapEmergencyStopBtn -- WebSocketServer
+ucTapBasicMotionBtn -- WebSocketServer
+
+@enduml

@@ -1,0 +1,19 @@
+@startuml
+!include ../../inc/settings.pu
+left to right direction
+title ロバストネス図 - 16方向ボタンをタップする
+
+actor "ユーザ" as User
+boundary "コントローラ画面" as ControllerPart
+entity "スピード" as Speed
+control "16方向移動制御" as ControlDirectionMove
+control "16方向移動制御電文作成" as CreateDirectionMoveTelegram
+control "電文送信" as SendTelegram
+
+User --> ControllerPart : 16方向を決める
+ControllerPart --> ControlDirectionMove
+ControlDirectionMove --> CreateDirectionMoveTelegram
+CreateDirectionMoveTelegram -- Speed
+ControlDirectionMove --> SendTelegram : 制御電文
+
+@enduml
