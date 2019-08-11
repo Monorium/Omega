@@ -1,0 +1,41 @@
+@startuml
+!include inc/settings.pu
+left to right direction
+title ユースケース図 - Main Board
+
+actor "Communication Board" as CommBoard
+
+rectangle "Servo Control" as ServoControl {
+  usecase "サーボの角度を変更する" as ucChangeServoAngle_local
+}
+
+rectangle "Communication" as Comm {
+  usecase "制御電文を送信する" as ucSendData
+}
+rectangle "Servo Control" as ServoControl {
+  usecase "MasterDataを取得する" as ucGetMasterData
+  usecase "サーボの角度を変更する" as ucChangeServoAngle_local
+}
+rectangle "Gyro Checker" as GyroChecker {
+  usecase "GyroSensorの値を取得する" as ucGetGyroValue
+  usecase "GyroSensorの値によって\nサーボの角度を変更する" as ucGyroAction
+}
+
+actor "MicroSD" as MicroSD
+actor "Gyro Sensor" as GyroSensor
+actor "Communication Board" as CommBoard_target
+actor "Servo_1~10" as Servo_1
+
+CommBoard -- ucSendData
+
+ucGetMasterData -- MicroSD
+ucGetGyroValue -- GyroSensor
+ucChangeServoAngle_local -- Servo_1
+ucChangeServoAngle_local -- CommBoard_target
+
+ucSendData <. ucChangeServoAngle_local
+ucChangeServoAngle_local <. ucGetMasterData
+ucGyroAction <. ucChangeServoAngle_local
+ucGyroAction <. ucGetGyroValue
+
+@enduml

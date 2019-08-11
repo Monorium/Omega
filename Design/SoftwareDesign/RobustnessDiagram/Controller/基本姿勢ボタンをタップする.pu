@@ -1,0 +1,21 @@
+@startuml
+!include ../../inc/settings.pu
+left to right direction
+title ロバストネス図 - 基本姿勢ボタンをタップする
+
+actor "ユーザ" as User
+boundary "コントローラ画面" as ControllerPart
+boundary "サーボ制御画面" as ServoControlPart
+control "基本姿勢制御" as ControlBasicMotion
+control "基本姿勢制御電文作成" as CreateBasicMotionTelegram
+control "電文送信" as SendTelegram
+
+User --> ControllerPart : 基本姿勢ボタンをタップ
+ControllerPart --> ControlBasicMotion
+ControlBasicMotion --> CreateBasicMotionTelegram
+ControlBasicMotion --> SendTelegram : 制御電文
+
+User --> ServoControlPart : 基本姿勢ボタンをタップ
+ServoControlPart --> ControlBasicMotion
+
+@enduml

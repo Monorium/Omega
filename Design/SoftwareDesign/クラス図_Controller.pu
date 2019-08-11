@@ -1,0 +1,129 @@
+@startuml
+!include ./inc/settings.pu
+title クラス図 - Controller
+
+' グローバル
+class Global {
+  ' WebSocket
+  # WebSocket socket
+  ' スピード
+  # int Speed
+  ' アプリ起動
+  + void StartApp()
+  ' スピード変更
+  + void ChangeSpeed(Speed)
+}
+
+' ヘッダー部
+class HeaderPart {
+  ' 画面切替
+  + void ChangePart()
+}
+
+' コントローラ画面
+class ControllerPart {
+  ' 16方向移動制御
+  void ControlDirectionMove(Direction)
+  ' 回転方向移動制御
+  void ControlRollingMove(Rolling)
+  ' 一時停止制御
+  void ControlPause()
+  ' 緊急停止制御
+  void ControlEmergencyStop()
+  ' 基本姿勢制御
+  void ControlBasicMotion()
+}
+
+' サーボ制御画面
+class ServoControlPart {
+  ' サーボ
+  - Servo[] servos
+  ' サーボ角度変更
+  void ChangeServoAngle(Servo)
+  ' 基本姿勢制御
+  void ControlBasicMotion()
+}
+
+' サーボ
+class Servo {
+  ' サーボ角度
+  - int ServoAngle
+}
+
+' WebSocket
+class WebSocket {
+  ' 接続状態
+  - boolean IsConnected
+  ' WebSocket接続
+  + boolean ConnectWebSocket()
+  ' WebSocket切断
+  + void DiconnectWebSocket()
+  ' 電文送信
+  + boolean SendTelegram(Telegram)
+}
+
+' 制御電文
+class TelegramFactory {
+  ' サーボ角度制御電文作成
+  {static} Telegram CreateServoAngleTelegram(Servo[], Speed)
+  ' 16方向移動制御電文作成
+  {static} Telegram CreateDirectionMoveTelegram(Direction, Speed)
+  ' 回転方向移動制御電文作成
+  {static} Telegram CreateRollingMoveTelegram(Rolling, Speed)
+  ' 一時停止制御電文作成
+  {static} Telegram CreatePauseTelegram()
+  ' 緊急停止制御電文作成
+  {static} Telegram CreateEmergencyStopTelegram()
+  ' 基本姿勢制御電文作成
+  {static} Telegram CreateBasicMotionTelegram()
+}
+' 制御電文
+Interface Telegram {
+  {abstract} Object GetJsonData()
+}
+' サーボ角度変更電文
+class ServoAngleTelegram {
+  - Servo[] servos
+  - int Speed
+}
+' 16方向移動制御電文
+class DirectionMoveTelegram {
+  - int Direction
+  - int Speed
+}
+' 回転方向移動制御電文
+class RollingMoveTelegram {
+  - int Rolling
+  - int Speed
+}
+' 一時停止制御電文
+class PauseTelegram {
+}
+' 緊急停止制御電文
+class EmergencyStopTelegram {
+}
+' 基本姿勢制御電文
+class BasicMotionTelegram {
+}
+
+Global *-- WebSocket
+ServoControlPart *-- "18" Servo
+
+WebSocket -- Telegram
+Telegram ^-- ServoAngleTelegram
+Telegram ^-- DirectionMoveTelegram
+Telegram ^-- RollingMoveTelegram
+Telegram ^-- PauseTelegram
+Telegram ^-- EmergencyStopTelegram
+Telegram ^-- BasicMotionTelegram
+
+Global -- ControllerPart
+Global -- ServoControlPart
+HeaderPart -- ControllerPart
+HeaderPart -- ServoControlPart
+HeaderPart -- WebSocket
+ControllerPart -- TelegramFactory
+ServoControlPart -- TelegramFactory
+TelegramFactory -- Telegram
+
+@enduml

@@ -1,0 +1,130 @@
+@startuml
+!include inc/settings.pu
+title シーケンス図 - Communication Board
+
+actor "Controller" as Controller
+participant "__boot__" as uBoot
+participant "__main__" as uMain
+participant "env" as env
+participant "wifiman\n:WifiManager" as wifiMan
+participant "OmegaWebApp" as main
+participant "webSrv\n:microWebSrv.MicroWebSrv" as webSrv #skyblue
+participant "webSock\n:microWebSocket.MicroWebSocket" as webSock #skyblue
+participant "sockChecker\n:WebSocketChecker" as sockChecker
+participant "arduino\n:ArduinoConn" as arduino
+participant "jServo[18]\n:JointServo" as jServo
+database "network.jsn" as cfgNetwork
+actor "Main Board" as MainBoard
+
+== Initialization ==
+autonumber
+[o-> uBoot : switch on
+activate uBoot
+uBoot -> env : environment
+uBoot -> wifiMan : WifiManager
+activate wifiMan
+uBoot ->> wifiMan : start_wifi()
+wifiMan -> cfgNetwork
+activate cfgNetwork
+wifiMan <-- cfgNetwork : Configuration
+deactivate cfgNetwork
+uBoot -> uMain
+activate uMain
+uMain -> main : import
+activate main
+main -> webSrv : MicroWebSrv(webPath='www/')
+activate webSrv
+main -> webSrv : WebSocketThreaded = True
+main -> webSrv : AcceptWebSocketCallback = _accept_callback
+main ->> webSrv : Start(threaded=True)
+main -> arduino : ArduinoConn()
+activate arduino
+main ->> arduino : start_recv_thread(_recv_arduino_callback)
+arduino -> arduino : is_connected = true
+...
+
+== Contoller communication - _accept_callback ==
+autonumber
+Controller -> webSrv : connect(/omega)
+webSrv -> webSock : MicroWebSocket
+activate webSock
+webSrv -> webSrv : _accept_callback
+activate webSrv
+alt Path = /omega
+  webSrv -> webSock : RecvTextCallback = _recv_text_callback
+  webSrv -> webSock : RecvBinaryCallback = _recv_binary_callback
+  webSrv -> webSock : ClosedCallback = _closed_callback
+  webSrv -> sockChecker : WebSockChecker(webSock)
+  activate sockChecker
+  webSrv ->> sockChecker : start_timer
+else
+  webSrv -> webSock : close
+  ref over webSock : _closed_callback
+end
+deactivate webSrv
+...
+== Contoller communication - WebSocket HealthCheck ==
+loop isActive = true
+  alt 一定周期を過ぎている場合（now > checkTimestamp + T1）
+    webSock -> webSock : is_active = false
+  else
+    webSock -> webSock : sleep(1000)
+  end
+end
+sockChecker -> webSock : close
+ref over webSock : _closedCallback
+deactivate sockChecker
+...
+== Contoller communication - _recv_text_callback ==
+Controller -> webSock : 電文
+webSock -> webSock : _recv_text_callback
+activate webSock
+alt 電文 = 'PING'
+  webSock -> Controller : PONG
+else
+  webSock -> arduino : 電文
+  alt arduino.isConnected
+    arduino -> MainBoard : send(電文)
+  end
+end
+deactivate webSock
+...
+== Contoller communication - _recv_binary_callback ==
+Controller -> webSock : 電文
+webSock -> webSock : _recv_binary_callback
+activate webSock
+note over webSock : 処理なし
+deactivate webSock
+...
+== Contoller communication - _closed_callback ==
+Controller -> webSock : close
+webSock -> webSock : _closed_callback
+activate webSock
+  webSock -> sockChecker : stop_timer
+deactivate webSock
+
+...
+== Arduino Serial communication - _recv_arduino ==
+autonumber
+MainBoard -> arduino : 電文
+arduino -> arduino : _recv_arduino
+activate arduino
+alt 電文 = 'サーボ制御電文'
+  arduino -> arduino : 電文からpin_no, andgleを取得
+  alt jServo[]に該当PinNoがない
+    arduino -> jServo : JointServo(pin_no)
+    activate jServo
+  end
+  arduino -> jServo : 制御(angle)
+  deactivate jServo
+end
+deactivate arduino
+
+deactivate arduino
+deactivate webSrv
+deactivate main
+deactivate wifiMan
+deactivate uMain
+deactivate uBoot
+
+@enduml

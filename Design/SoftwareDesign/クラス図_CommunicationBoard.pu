@@ -1,0 +1,43 @@
+@startuml
+!include inc/settings.pu
+title クラス図 - Communication Board
+
+class WifiManager {
+  start_wifi()
+}
+class OmegaWebApp {
+  {static} main()
+  {static} _accept_callback(webSock, httpClient)
+  {static} _recv_text_callback(webSock, massage)
+  {static} _recv_binary_callback(webSock, data)
+  {static} _closed_callback(webSock)
+  {static} _recv_arduino_callback(telegram)
+}
+class microWebSrv.MicroWebSrv {
+}
+class microWebSocket.MicroWebSocket {
+}
+class WebSocketChecker {
+  WebSocketChecker(webSock)
+  start_timer()
+  stop_timer()
+}
+class ArduinoConn {
+  _servo[] JointServo
+  start_recv_thread(callback)
+  send(message)
+}
+class JointServo {
+  JointServo(pin_no)
+  move(angle)
+}
+
+OmegaWebApp -- microWebSrv.MicroWebSrv : webPath='www/'
+OmegaWebApp -- microWebSocket.MicroWebSocket
+microWebSrv.MicroWebSrv -- microWebSocket.MicroWebSocket : /omega
+OmegaWebApp -- WebSocketChecker
+WebSockChecker -- microWebSocket.MicroWebSocket
+OmegaWebApp -- ArduinoConn
+ArduinoConn -- JointServo
+
+@enduml

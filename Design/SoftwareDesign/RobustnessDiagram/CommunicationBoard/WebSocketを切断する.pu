@@ -1,0 +1,15 @@
+@startuml
+!include ../../inc/settings.pu
+left to right direction
+title ロバストネス図 - WebSocketを切断する
+
+actor "Controller" as Controller
+boundary "WebSocket" as WebSocket
+control "WebSocket切断" as DisconnectWebSocket
+control "ヘルスチェックタイマー停止" as StopHealthCheckTimer
+
+Controller --> WebSocket : WebSocketを切断する
+WebSocket --> StopHealthCheckTimer
+WebSocket --> DisconnectWebSocket
+
+@enduml
