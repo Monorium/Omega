@@ -3,7 +3,6 @@
 title シーケンス図 - Communication Board
 
 actor "Controller" as Controller
-actor "Main Board" as MainBoard
 participant "__boot__" as uBoot
 participant "__main__" as uMain
 participant "env" as env
@@ -15,6 +14,7 @@ participant "sockChecker\n:WebSocketChecker" as sockChecker
 participant "arduino\n:ArduinoConn" as arduino
 participant "jServo[18]\n:JointServo" as jServo
 database "network.jsn" as cfgNetwork
+actor "Main Board" as MainBoard
 
 == Initialization ==
 autonumber

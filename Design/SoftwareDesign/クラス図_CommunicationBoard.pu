@@ -35,64 +35,9 @@ class JointServo {
 OmegaWebApp -- microWebSrv.MicroWebSrv : webPath='www/'
 OmegaWebApp -- microWebSocket.MicroWebSocket
 microWebSrv.MicroWebSrv -- microWebSocket.MicroWebSocket : /omega
-OmegaWebApp -- WebSockChecker
+OmegaWebApp -- WebSocketChecker
 WebSockChecker -- microWebSocket.MicroWebSocket
 OmegaWebApp -- ArduinoConn
-
-
-/'
-  arduino -> arduino : 電文からpin_no, andgleを取得
-  alt jServo[]に該当PinNoがない
-    arduino -> jServo : JointServo(pin_no)
-    activate jServo
-  end
-  arduino -> jServo : 制御(angle)
-  deactivate jServo
-end
-deactivate arduino
-
-
-
-    usecase "サーボの角度を変更する" as ucChangeServoAngle
-    usecase "16方向移動を命令する" as ucCmdDirectionMove
-    usecase "回転方向移動を命令する" as ucCmdRollingMove
-    usecase "動作を停止する" as ucPause
-    usecase "基本姿勢に変更する" as ucChangeBasicPosition
-  }
-}
-rectangle "Servo Control" as ServoControl {
-  usecase "サーボの角度を変更する" as ucChangeServoAngle_local
-}
-'/
-
-
-' WebSocketServer
-class WebSocketServer {
-  ' Listen
-  + WebSocket Listen()
-}
-
-' WebSocket
-class WebSocket {
-  ' WebSocket切断
-  void Close()
-  ' 電文受信
-  void RecvTelegram()
-  ' ヘルスチェック電文送信
-  void SendPong()
-  ' 電文をMainBoardへ転送
-  void SendTelegram()
-}
-
-class HealthCheckTimer {
-  ' WebSocket
-  - WebSocket socket
-  ' ヘルスチェックタイマーを開始
-  + void StartTimer(WebSocket)
-  ' ヘルスチェックタイマーを終了
-  + void StopTimer()
-  ' ヘルスチェック
-  + void Check(Telegram)
-}
+ArduinoConn -- JointServo
 
 @enduml

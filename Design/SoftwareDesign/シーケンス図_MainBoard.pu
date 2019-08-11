@@ -1,0 +1,26 @@
+@startuml
+!include inc/settings.pu
+title シーケンス図 - Main Board
+
+actor "Communication Board" as CommBoard
+actor "setup" as setup
+participant "jServo[18]\n:JointServo" as jServo
+
+== Initialization ==
+autonumber
+[o-> setup : switch on
+activate setup
+
+...
+
+== Contoller communication - _recv_text_callback ==
+CommBoard -> MainBoard : send(電文)
+
+...
+== Arduino Serial communication - _recv_arduino ==
+autonumber
+MainBoard -> CommBoard : サーボ制御電文
+
+
+
+@enduml
