@@ -1,0 +1,136 @@
+openapi: "3.0.2"
+
+info:
+  title: Omega API
+  description: Omega control APIs
+  version: 0.0.1
+
+servers:
+  - url: http://192.168.3.211/
+
+tags:
+  - name: Control Legs
+    description: Control legs API
+  - name: System
+    description: System API
+
+paths:
+  /legs:
+    get:
+      tags:
+        - Control Legs
+      summary: Get leg status
+      responses:
+        200:
+          description: All leg status
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LegStatus"
+    post:
+      tags:
+        - Control Legs
+      summary: Control leg angle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/LegControl"
+
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LegStatus"
+        400:
+          description: Invalid control data
+
+  /health:
+    get:
+      tags:
+        - System
+      summary: Check Health
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: ok
+
+components:
+  schemas:
+    LegControl:
+      type: object
+      properties:
+        position:
+          type: string
+          enum:
+            - "ForeLeft"
+            - "MiddleLeft"
+            - "BackLeft"
+            - "ForeRight"
+            - "MiddleRight"
+            - "BackRight"
+        joints:
+          type: array
+          items:
+            type: object
+            properties:
+              position:
+                type: string
+                enum:
+                  - "First"
+                  - "Second"
+                  - "Third"
+              angle:
+                type: integer
+                format: int32
+                example: 90
+
+    LegStatus:
+      type: object
+      properties:
+        position:
+          type: string
+          enum:
+            - "ForeLeft"
+            - "MiddleLeft"
+            - "BackLeft"
+            - "ForeRight"
+            - "MiddleRight"
+            - "BackRight"
+        joints:
+          type: array
+          items:
+            type: object
+            properties:
+              position:
+                type: string
+                enum:
+                  - "First"
+                  - "Second"
+                  - "Third"
+              is_sub:
+                type: boolean
+              pin:
+                type: integer
+                format: int32
+                example: 13
+              angle:
+                type: integer
+                format: int32
+                example: 90
