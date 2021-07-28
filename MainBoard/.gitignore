@@ -1,0 +1,6 @@
+.vscode/*
+!.vscode/arduino.json
+!.vscode/settings.json
+
+build
+Configure.h
